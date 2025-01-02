@@ -71,7 +71,7 @@ content = """26 ส.ค. 61 ผู้สื่อข่าวรายงาน�
 
 ### Output:
 ```
-Prediction: Fact News
+Prediction: Fake News
 ```
 
 ---
