@@ -6,6 +6,8 @@ This project implements a **Fake News Detection System** for Thai-language news 
 
 The system processes both the **title** and **content** of articles and includes advanced preprocessing for Thai text, such as tokenization, removal of stopwords, and custom feature engineering.
 
+Fake News Dataset is from LimeSoda: https://github.com/byinth/LimeSoda
+
 ---
 
 ## Features
