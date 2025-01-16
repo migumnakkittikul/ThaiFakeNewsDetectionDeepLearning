@@ -123,12 +123,12 @@ test_model(title, content)
 
 ## Results
 
-- **Accuracy**: 93% on the test set.
+- **Accuracy**: 92% on the test set.
 - **Classification Report**:
   ```
               Precision    Recall    F1-score
-  Fake News      0.91       0.97        0.94
-  Fact News      0.96       0.88        0.92
+  Fake News      0.91       0.94        0.93
+  Fact News      0.92       0.89        0.91
   ```
 
 ---
