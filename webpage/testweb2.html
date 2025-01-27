@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Authenticity Check / ตรวจสอบข่าว</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .language-note {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 150px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #1557b0;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .real {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        .fake {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        .loading {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+            color: #1a73e8;
+        }
+
+        .bilingual {
+            display: block;
+        }
+        .english {
+            margin-bottom: 5px;
+        }
+        .thai {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Specific element overrides */
+        button .thai {
+            color: white;
+        }
+        .result .thai {
+            color: #666 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span class="bilingual english">News Authenticity Check</span>
+            <span class="bilingual thai">ตรวจสอบความน่าเชื่อถือของข่าว</span>
+        </h1>
+        
+        <div class="language-note bilingual">
+            <span class="english">Supports Thai text</span>
+            <span class="thai">รองรับข้อความภาษาไทย</span>
+        </div>
+
+        <div class="input-group">
+            <textarea id="newsText" placeholder="Paste news text here ... / วางข้อความข่าวที่นี่ ..."></textarea>
+        </div>
+        
+        <div style="text-align: center;">
+            <button onclick="checkNews()">
+                <span class="bilingual english">Check</span>
+                <span class="bilingual thai">ตรวจสอบ</span>
+            </button>
+        </div>
+
+        <div class="loading" id="loading">
+            <span class="bilingual english">Checking...</span>
+            <span class="bilingual thai">กำลังตรวจสอบ...</span>
+        </div>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function checkNews() {
+            const text = document.getElementById('newsText').value;
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+
+            if (!text.trim()) {
+                alert('Please enter news text / กรุณาใส่ข้อความข่าว');
+                return;
+            }
+
+            resultDiv.className = 'result';
+            loadingDiv.style.display = 'block';
+
+            try {
+                const response = await fetch('http://3.147.82.192/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text })
+                });
+
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <span class="bilingual english">Result: ${data.prediction}</span>
+                    <span class="bilingual thai">ผลการตรวจสอบ: ${data.prediction === 'Fake News' ? 'ข่าวปลอม' : 'ข่าวจริง'}</span>
+                `;
+                resultDiv.className = `result ${data.prediction === 'Fake News' ? 'fake' : 'real'}`;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <span class="bilingual english">Error checking news. Please try again.</span>
+                    <span class="bilingual thai">เกิดข้อผิดพลาดในการตรวจสอบ กรุณาลองอีกครั้ง</span>
+                `;
+                resultDiv.className = 'result fake';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
