@@ -8,6 +8,8 @@ The system processes both the **title** and **content** of articles and includes
 
 Fake News Dataset is from LimeSoda: https://github.com/byinth/LimeSoda
 
+The project's API is deployed using AWS ECS and frontend is hosted by Github Pages. You can test it here: https://migumnakkittikul.github.io/FakeNewsDetectionDeploy/
+
 ---
 
 ## Features
@@ -20,16 +22,6 @@ Fake News Dataset is from LimeSoda: https://github.com/byinth/LimeSoda
 
 ---
 
-## Project Structure
-
-```
-.
-├── main_notebook.ipynb      # The Jupyter Notebook containing all training and testing code.
-├── tokenizer.pickle         # Saved tokenizer after training (required for inference).
-├── best_model_checkpoint.pth # Model weights checkpoint (required for inference).
-├── README.md                # Project documentation (this file).
-├── Limesoda.jsonl           # Dataset (in JSONL format) for training and evaluation.
-```
 
 ---
 
